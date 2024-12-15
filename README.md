@@ -48,7 +48,7 @@ Do realizacji projektu wykorzystaliśmy:
 
 1. **Klonowanie repozytorium projektu**:
    ```bash
-   git clone <URL_REPOZYTORIUM>
+   git clone https://github.com/piotreuszxx/pg-biznes.git
    cd <NAZWA_FOLDERU>
    ```
 
