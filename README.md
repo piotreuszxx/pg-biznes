@@ -2,7 +2,7 @@
 
 ## Opis projektu
 
-Celem projektu jest praktyczna nauka pracy z oprogramowaniem Open Source dedykowanym do tworzenia sklepów internetowych. W trakcie realizacji uczestnicy zapoznają się z konfiguracją i dostosowaniem platformy PrestaShop do wymagań klienta, a następnie przygotują środowisko wdrożeniowe i uruchomią rozwiązanie w dedykowanej infrastrukturze.
+Celem projektu jest praktyczna nauka pracy z oprogramowaniem Open Source dedykowanym do tworzenia sklepów internetowych. W trakcie realizacji zaponzaliśmy się z konfiguracją i dostosowaniem platformy PrestaShop do wymagań klienta, a następnie przygotowaliśmy środowisko wdrożeniowe i uruchomiliśmy rozwiązanie w dedykowanej infrastrukturze.
 
 Realizacja projektu ma na celu:
 - Przybliżenie warunków pracy programisty w rzeczywistych projektach.
@@ -20,15 +20,14 @@ Projekt umożliwia zdobycie praktycznej wiedzy z zakresu:
 
 ## Wykorzystane oprogramowanie
 
-Do realizacji projektu wymagane są:
+Do realizacji projektu wykorzystaliśmy:
 
-1. **Platforma sklepu internetowego**: PrestaShop 1.7.8  
-   [Repozytorium PrestaShop](https://github.com/PrestaShop/PrestaShop/tree/1.7.8.x)
+1. **Platforma sklepu internetowego**: PrestaShop 1.7.8 [Repozytorium PrestaShop](https://github.com/PrestaShop/PrestaShop/tree/1.7.8.x)
 
 2. **Narzędzia developerskie**:  
-   - Repozytorium kodu: [GitHub](https://github.com) / [GitLab](https://gitlab.com)  
+   - Repozytorium kodu: [GitHub](https://github.com)
    - System kontroli wersji: [Git](https://git-scm.com)  
-   - Edytor kodu: np. [Visual Studio Code](https://code.visualstudio.com), NeoVim, SublimeText  
+   - Edytor kodu: [Visual Studio Code](https://code.visualstudio.com) 
 
 3. **Środowisko uruchomieniowe**:  
    - System konteneryzacji: [Docker](https://docker.com)  
@@ -89,34 +88,7 @@ Do realizacji projektu wymagane są:
 
 ## Skład zespołu
 
-- **Lider zespołu**: [Imię i nazwisko]  
-  Odpowiedzialność: Koordynacja projektu, zarządzanie zadaniami.
-
-- **Programista backend**: [Imię i nazwisko]  
-  Odpowiedzialność: Konfiguracja serwera, integracja z bazą danych, testy backendu.
-
-- **Programista frontend**: [Imię i nazwisko]  
-  Odpowiedzialność: Dostosowanie wyglądu sklepu, optymalizacja UI.
-
-- **Specjalista ds. testów**: [Imię i nazwisko]  
-  Odpowiedzialność: Automatyzacja testów, testy funkcjonalności.
-
-- **Administrator infrastruktury**: [Imię i nazwisko]  
-  Odpowiedzialność: Konfiguracja środowiska wirtualnego i produkcyjnego.
-
----
-
-## Harmonogram prac
-
-- **Tydzień 1-2**: Analiza wymagań, konfiguracja środowiska developerskiego.
-- **Tydzień 3-4**: Dostosowanie PrestaShop, implementacja funkcjonalności.
-- **Tydzień 5**: Testowanie i optymalizacja.
-- **Tydzień 6**: Wdrożenie środowiska produkcyjnego, końcowe testy.
-
----
-
-## Uwagi
-
-- Zapewnienie terminowości realizacji zadań jest kluczowe dla powodzenia projektu.
-- Wszystkie zmiany w kodzie należy dokumentować w repozytorium.
-- Regularne spotkania zespołu pozwolą uniknąć opóźnień.
+- Tymon Muszyński
+- Piotr Przymus
+- Maciej Szymczak
+- Mateusz Merda
