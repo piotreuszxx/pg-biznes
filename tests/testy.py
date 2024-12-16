@@ -3,7 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 import random
+from faker import Faker
 
+fake = Faker()
 driver = webdriver.Edge()
 driver.maximize_window()
 
@@ -98,6 +100,60 @@ def test_c_remove_from_cart():
     print("Test C passed!")
     driver.delete_all_cookies()
 
+def test_d_register_new_account():
+    driver.get("http://localhost:8080/pl/")
+    time.sleep(1)
+
+    user_info = driver.find_element(By.CLASS_NAME, "user-info")
+    user_info.click()
+    time.sleep(1)
+    
+    register_button = driver.find_element(By.CLASS_NAME, "no-account")
+    register_button.click()
+    time.sleep(1)
+
+    gender_field = driver.find_element(By.ID, "field-id_gender-1")
+    gender_field.click()
+    time.sleep(1)
+
+    firstname = fake.first_name()
+    firstname_field = driver.find_element(By.ID, "field-firstname")
+    firstname_field.send_keys(firstname)
+    time.sleep(1)
+
+    lastname = fake.last_name()
+    lastname_field = driver.find_element(By.ID, "field-lastname")
+    lastname_field.send_keys(lastname)
+    time.sleep(1)
+
+    email_input = driver.find_element(By.ID, "field-email")
+    email_input.send_keys(fake.email())
+    time.sleep(1)
+
+    password_input = driver.find_element(By.ID, "field-password")
+    password_input.send_keys(fake.password())
+    time.sleep(1)
+
+    privacy_field = driver.find_element(By.NAME, "customer_privacy")
+    privacy_field.click()
+    time.sleep(1)
+
+    gdpr_field = driver.find_element(By.NAME, "psgdpr")
+    gdpr_field.click()
+    time.sleep(1)
+
+    submit_button = driver.find_element(By.CLASS_NAME, "form-control-submit")
+    submit_button.click()
+    time.sleep(3)
+
+    user_info = driver.find_element(By.CLASS_NAME, "user-info")
+    print(user_info.text)
+    assert (firstname + " " + lastname) in user_info.text
+
+    print("Test D passed!")
+    driver.delete_all_cookies()
+
 #test_a_add_to_cart()
 #test_b_search_and_add_to_cart()
-test_c_remove_from_cart()
+#test_c_remove_from_cart()
+test_d_register_new_account()
