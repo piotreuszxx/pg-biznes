@@ -1,8 +1,8 @@
-# Projekt: Konfiguracja i Wdrożenie PrestaShop
+# Biznes Elektroniczny: Konfiguracja i Wdrożenie PrestaShop
 
 ## Opis projektu
 
-Celem projektu jest praktyczna nauka pracy z oprogramowaniem Open Source dedykowanym do tworzenia sklepów internetowych. W trakcie realizacji zaponzaliśmy się z konfiguracją i dostosowaniem platformy PrestaShop do wymagań klienta, a następnie przygotowaliśmy środowisko wdrożeniowe i uruchomiliśmy rozwiązanie w dedykowanej infrastrukturze.
+Celem projektu jest praktyczna nauka pracy z oprogramowaniem Open Source dedykowanym do tworzenia sklepów internetowych. W trakcie realizacji zapoznaliśmy się z konfiguracją i dostosowaniem platformy PrestaShop do wymagań klienta, a następnie przygotowaliśmy środowisko wdrożeniowe i uruchomiliśmy rozwiązanie w dedykowanej infrastrukturze.
 
 Realizacja projektu ma na celu:
 - Przybliżenie warunków pracy programisty w rzeczywistych projektach.
@@ -22,23 +22,21 @@ Projekt umożliwia zdobycie praktycznej wiedzy z zakresu:
 
 Do realizacji projektu wykorzystaliśmy:
 
-1. **Platforma sklepu internetowego**: PrestaShop 1.7.8 [Repozytorium PrestaShop](https://github.com/PrestaShop/PrestaShop/tree/1.7.8.x)
+* **Platforma sklepu internetowego**: PrestaShop 1.7.8 [Repozytorium PrestaShop](https://github.com/PrestaShop/PrestaShop/tree/1.7.8.x)
 
-2. **Narzędzia developerskie**:  
+* **Narzędzia developerskie**:  
    - Repozytorium kodu: [GitHub](https://github.com)
    - System kontroli wersji: [Git](https://git-scm.com)  
    - Edytor kodu: [Visual Studio Code](https://code.visualstudio.com) 
 
-3. **Środowisko uruchomieniowe**:  
+* **Środowisko uruchomieniowe**:  
    - System konteneryzacji: [Docker](https://docker.com)  
    - System zarządzania kontenerami: [Docker Compose](https://docs.docker.com/compose/)  
-   - Wirtualizacja: np. [VirtualBox](https://www.virtualbox.org)  
-   - System operacyjny: [Ubuntu LTS](https://ubuntu.com/download/desktop)
 
-4. **Dodatkowe oprogramowanie**:  
+* **Dodatkowe oprogramowanie**:  
    - Serwer: Apache (httpd2), MySQL (MariaDB)
    - Biblioteki PHP: `php`, `php-mysql`, `php-pdo`, i inne wymagane przez PrestaShop.
-   - Narzędzia do testów UI: [Selenium](https://www.selenium.dev/documentation/en/)
+   - Narzędzie do testów UI: [Selenium](https://www.selenium.dev/documentation/en/)
 
 ---
 
@@ -59,26 +57,14 @@ Do realizacji projektu wykorzystaliśmy:
      docker-compose up -d
      ```
 
-3. **Konfiguracja wirtualnej maszyny** (opcjonalnie):
-   - Pobierz i zainstaluj VirtualBox.
-   - Utwórz maszynę wirtualną z systemem Ubuntu LTS.
-
-4. **Instalacja zależności PrestaShop**:
-   - Uruchom skrypt instalacyjny platformy, który wskaże brakujące biblioteki.
-   - Doinstaluj wskazane pakiety za pomocą:
-     ```bash
-     sudo apt-get install <NAZWA_PAKIETU>
-     ```
-
-5. **Dostosowanie sklepu**:
+3. **Dostosowanie sklepu**:
    - Zaloguj się do panelu administracyjnego PrestaShop.
    - Zmień ustawienia zgodnie z wymaganiami projektu.
 
-6. **Testowanie aplikacji**:
-   - Skonfiguruj Selenium do testów UI.
-   - Przeprowadź testy funkcjonalności.
+4. **Testowanie aplikacji**:
+   - Uruchom skrypt `testy.py` wykorzystujący bibliotekę Selenium.
 
-### 2. Wdrożenie środowiska produkcyjnego
+### Wdrożenie środowiska produkcyjnego
 
 1. Skonfiguruj docelowy serwer produkcyjny.
 2. Skopiuj pliki i konfigurację na serwer za pomocą `scp` lub innego narzędzia.
