@@ -105,16 +105,14 @@ def test_d_register_new_account():
     print("Test D passed!")
     driver.delete_all_cookies()
 
-def test_e_order_cart_contents():
+def tests_efghij_order_cart_contents():
     driver.get("http://localhost:8080/pl/")
-    time.sleep(1)
 
     # add one product to cart
     category = driver.find_element(By.ID, "category-3")
     add_products_in_category(category, 1)
     time.sleep(1)
     driver.refresh()
-    time.sleep(1)
 
     driver.find_element(By.CLASS_NAME, "cart-preview").click()
     time.sleep(1)
@@ -147,14 +145,13 @@ def test_e_order_cart_contents():
     time.sleep(1)
     
     driver.find_element(By.NAME, "confirm-addresses").click()
-    time.sleep(1)
 
     # delivery option
-    driver.find_element(By.ID, "delivery_option_2").click()
+    driver.find_element(By.ID, "delivery_option_5").click()
     time.sleep(1)
 
     driver.find_element(By.NAME, "confirmDeliveryOption").click()
-    time.sleep(1)
+    print("Test G passed!")
 
     # payment option
     driver.find_element(By.ID, "payment-option-2").click()
@@ -163,16 +160,23 @@ def test_e_order_cart_contents():
     time.sleep(1)
 
     driver.find_element(By.XPATH, "//button[contains(text(), 'Złóż zamówienie')]").click()
+    print("Test F passed!")
+    print("Test E passed!")
     time.sleep(3)
 
     # check if products have been ordered
     confirmation = driver.find_element(By.CLASS_NAME, "card-title")
     assert "TWOJE ZAMÓWIENIE ZOSTAŁO POTWIERDZONE" in confirmation.text
-    print("Test E passed!")
+    print("Test H passed!")
 
+    driver.find_element(By.CLASS_NAME, "account").click()
+    driver.find_element(By.ID, "history-link").click()
+    driver.find_element(By.XPATH, "//a[contains(text(), 'Szczegóły')]").click()
+    print("Test I passed!")
+    #TODO faktura
 
-#test_a_add_to_cart()
-#test_b_search_and_add_to_cart()
+test_a_add_to_cart()
+test_b_search_and_add_to_cart()
 test_c_remove_from_cart()
 test_d_register_new_account()
-test_e_order_cart_contents()
+tests_efghij_order_cart_contents()
