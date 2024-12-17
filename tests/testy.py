@@ -5,13 +5,12 @@ import time
 import random
 from faker import Faker
 
-fake = Faker()
-driver = webdriver.Edge()
+fake = Faker(locale="pl_PL")
+driver = webdriver.Edge() # !!! change to your browser
 driver.maximize_window()
 
 def test_a_add_to_cart():
     driver.get("http://localhost:8080/pl/")
-    time.sleep(1)
     
     category1 = driver.find_element(By.ID, "category-3")
     add_products_in_category(category1, 5)
@@ -23,53 +22,38 @@ def test_a_add_to_cart():
     driver.delete_all_cookies()
 
 def verify_cart_contents(contents):
+    time.sleep(1)
+    driver.refresh()
     cart = driver.find_element(By.CLASS_NAME, "cart-preview")
     assert contents in cart.text
 
 def add_products_in_category(category, max_prods):
     category.click()
-    time.sleep(1)
-    
-    while True:
+    products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
+    for index in range(min(max_prods, len(products))): # max 5 products per category
+        # re-fetch products to avoid stale refs
         products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
-
-        for index in range(min(max_prods, len(products))): # max 5 products per category
-            # re-fetch products to avoid stale refs
-            products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
-            product = products[index]
-            product.click()
-            time.sleep(2)
-            
-            add_to_cart_button = driver.find_element(By.CLASS_NAME, "add-to-cart")
-            add_to_cart_button.click()
-            time.sleep(2)
-            
-            driver.back()
-            time.sleep(2)
-            
-        break
-
+        products[index].click()
+        
+        driver.find_element(By.CLASS_NAME, "add-to-cart").click()
+        driver.back()
+    
 def test_b_search_and_add_to_cart():
     driver.get("http://localhost:8080/pl/")
-    time.sleep(1)
 
     search_box = driver.find_element(By.NAME, "s")
     search_box.send_keys("mug")
     search_box.send_keys(Keys.RETURN)
-    time.sleep(1)
 
     products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
     random_index = random.randint(1, len(products)-1)
     products[random_index].click()
-    time.sleep(2)
 
-    add_to_cart_button = driver.find_element(By.CLASS_NAME, "add-to-cart")
-    add_to_cart_button.click()
+    driver.find_element(By.CLASS_NAME, "add-to-cart").click()
     time.sleep(10) # only works with this long sleep, idk even 5 seconds was too fast
 
     # verify cart contents
     driver.refresh()
-    time.sleep(2)
     verify_cart_contents("1")
 
     print("Test B passed!")
@@ -77,22 +61,18 @@ def test_b_search_and_add_to_cart():
 
 def test_c_remove_from_cart():
     driver.get("http://localhost:8080/pl/")
-    time.sleep(1)
-    
+
     category = driver.find_element(By.ID, "category-6")
     add_products_in_category(category, 3)
     
     # verify cart contents
     verify_cart_contents("3")
-    cart = driver.find_element(By.CLASS_NAME, "cart-preview")
-    cart.click()
+    driver.find_element(By.CLASS_NAME, "cart-preview").click()
     time.sleep(2)
 
     buttons = driver.find_elements(By.CLASS_NAME, "remove-from-cart")
     for index in range(2, -1, -1):
-        # re-fetch to avoid stale refs
-        button = buttons[index]
-        button.click()
+        buttons[index].click()
         time.sleep(1)
 
     time.sleep(10)
@@ -102,49 +82,21 @@ def test_c_remove_from_cart():
 
 def test_d_register_new_account():
     driver.get("http://localhost:8080/pl/")
-    time.sleep(1)
-
-    user_info = driver.find_element(By.CLASS_NAME, "user-info")
-    user_info.click()
-    time.sleep(1)
-    
-    register_button = driver.find_element(By.CLASS_NAME, "no-account")
-    register_button.click()
-    time.sleep(1)
-
-    gender_field = driver.find_element(By.ID, "field-id_gender-1")
-    gender_field.click()
-    time.sleep(1)
+    driver.find_element(By.CLASS_NAME, "user-info").click()
+    driver.find_element(By.CLASS_NAME, "no-account").click()
+    driver.find_element(By.ID, "field-id_gender-1").click()
 
     firstname = fake.first_name()
-    firstname_field = driver.find_element(By.ID, "field-firstname")
-    firstname_field.send_keys(firstname)
-    time.sleep(1)
-
     lastname = fake.last_name()
-    lastname_field = driver.find_element(By.ID, "field-lastname")
-    lastname_field.send_keys(lastname)
-    time.sleep(1)
 
-    email_input = driver.find_element(By.ID, "field-email")
-    email_input.send_keys(fake.email())
+    driver.find_element(By.ID, "field-firstname").send_keys(firstname)
+    driver.find_element(By.ID, "field-lastname").send_keys(lastname)
+    driver.find_element(By.ID, "field-email").send_keys(fake.email())
+    driver.find_element(By.ID, "field-password").send_keys(fake.password())
+    driver.find_element(By.NAME, "customer_privacy").click()
+    driver.find_element(By.NAME, "psgdpr").click()
+    driver.find_element(By.CLASS_NAME, "form-control-submit").click()
     time.sleep(1)
-
-    password_input = driver.find_element(By.ID, "field-password")
-    password_input.send_keys(fake.password())
-    time.sleep(1)
-
-    privacy_field = driver.find_element(By.NAME, "customer_privacy")
-    privacy_field.click()
-    time.sleep(1)
-
-    gdpr_field = driver.find_element(By.NAME, "psgdpr")
-    gdpr_field.click()
-    time.sleep(1)
-
-    submit_button = driver.find_element(By.CLASS_NAME, "form-control-submit")
-    submit_button.click()
-    time.sleep(3)
 
     user_info = driver.find_element(By.CLASS_NAME, "user-info")
     print(user_info.text)
@@ -153,7 +105,74 @@ def test_d_register_new_account():
     print("Test D passed!")
     driver.delete_all_cookies()
 
+def test_e_order_cart_contents():
+    driver.get("http://localhost:8080/pl/")
+    time.sleep(1)
+
+    # add one product to cart
+    category = driver.find_element(By.ID, "category-3")
+    add_products_in_category(category, 1)
+    time.sleep(1)
+    driver.refresh()
+    time.sleep(1)
+
+    driver.find_element(By.CLASS_NAME, "cart-preview").click()
+    time.sleep(1)
+    
+    driver.find_element(By.CLASS_NAME, "checkout").click()
+    time.sleep(1)
+
+    # personal data form
+    firstname = fake.first_name()
+    lastname = fake.last_name()
+    driver.find_element(By.ID, "field-id_gender-1").click()
+    driver.find_element(By.ID, "field-firstname").send_keys(firstname)
+    driver.find_element(By.ID, "field-lastname").send_keys(lastname)
+    driver.find_element(By.ID, "field-email").send_keys(fake.email())
+    driver.find_element(By.ID, "field-password").send_keys(fake.password())
+    driver.find_element(By.NAME, "customer_privacy").click()
+    driver.find_element(By.NAME, "psgdpr").click()
+    time.sleep(1)
+
+    driver.find_element(By.CLASS_NAME, "continue").click()
+    time.sleep(1)
+
+    # address form
+    driver.find_element(By.ID, "field-alias").send_keys("my alias")
+    driver.find_element(By.ID, "field-company").send_keys(fake.company())
+    driver.find_element(By.ID, "field-vat_number").send_keys(fake.nip())
+    driver.find_element(By.ID, "field-address1").send_keys(fake.street_address())
+    driver.find_element(By.ID, "field-postcode").send_keys(fake.postalcode())
+    driver.find_element(By.ID, "field-city").send_keys(fake.city())
+    time.sleep(1)
+    
+    driver.find_element(By.NAME, "confirm-addresses").click()
+    time.sleep(1)
+
+    # delivery option
+    driver.find_element(By.ID, "delivery_option_2").click()
+    time.sleep(1)
+
+    driver.find_element(By.NAME, "confirmDeliveryOption").click()
+    time.sleep(1)
+
+    # payment option
+    driver.find_element(By.ID, "payment-option-2").click()
+
+    driver.find_element(By.ID, "conditions_to_approve[terms-and-conditions]").click()
+    time.sleep(1)
+
+    driver.find_element(By.XPATH, "//button[contains(text(), 'Złóż zamówienie')]").click()
+    time.sleep(3)
+
+    # check if products have been ordered
+    confirmation = driver.find_element(By.CLASS_NAME, "card-title")
+    assert "TWOJE ZAMÓWIENIE ZOSTAŁO POTWIERDZONE" in confirmation.text
+    print("Test E passed!")
+
+
 #test_a_add_to_cart()
 #test_b_search_and_add_to_cart()
-#test_c_remove_from_cart()
+test_c_remove_from_cart()
 test_d_register_new_account()
+test_e_order_cart_contents()
