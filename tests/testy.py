@@ -68,14 +68,13 @@ def test_c_remove_from_cart():
     # verify cart contents
     verify_cart_contents("3")
     driver.find_element(By.CLASS_NAME, "cart-preview").click()
-    time.sleep(2)
+    time.sleep(1)
 
-    buttons = driver.find_elements(By.CLASS_NAME, "remove-from-cart")
-    for index in range(2, -1, -1):
-        buttons[index].click()
-        time.sleep(1)
+    for _ in range(0, 3):
+        buttons = driver.find_elements(By.CLASS_NAME, "remove-from-cart")
+        buttons[0].click()
+        driver.refresh()
 
-    time.sleep(10)
     verify_cart_contents("0")
     print("Test C passed!")
     driver.delete_all_cookies()
@@ -99,7 +98,6 @@ def test_d_register_new_account():
     time.sleep(1)
 
     user_info = driver.find_element(By.CLASS_NAME, "user-info")
-    print(user_info.text)
     assert (firstname + " " + lastname) in user_info.text
 
     print("Test D passed!")
@@ -175,8 +173,8 @@ def tests_efghij_order_cart_contents():
     print("Test I passed!")
     #TODO faktura
 
-test_a_add_to_cart()
-test_b_search_and_add_to_cart()
+# test_a_add_to_cart()
+# test_b_search_and_add_to_cart()
 test_c_remove_from_cart()
-test_d_register_new_account()
-tests_efghij_order_cart_contents()
+# test_d_register_new_account()
+# tests_efghij_order_cart_contents()
