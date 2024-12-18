@@ -3,51 +3,7 @@ import xml.etree.ElementTree as ET
 import re
 from config import API_URL, HEADERS
 
-def get_categories():
-    endpoint = f"{API_URL}/categories"
-
-    try:
-        response = requests.get(endpoint, headers=HEADERS, verify=False)
-
-        if response.status_code == 200:
-            root = ET.fromstring(response.text)
-            print("Categories fetched successfully:\n")
-            
-            category_list = []
-            for category in root.findall(".//category"):
-                category_id = category.get("id")
-                category_name = get_category_name(category_id)
-                category_list.append((category_id, category_name))
-                print(f"Category ID: {category_id}, Name: {category_name}")
-            
-            return category_list
-
-        else:
-            print(f"Failed to fetch categories: {response.status_code} - {response.text}")
-            return []
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-def get_category_name(category_id):
-    endpoint = f"{API_URL}/categories/{category_id}"
-
-    try:
-        response = requests.get(endpoint, headers=HEADERS, verify=False)
-
-        if response.status_code == 200:
-            root = ET.fromstring(response.text)
-            name = root.find(".//name/language").text if root.find(".//name/language") is not None else "No Name"
-            return name
-        else:
-            print(f"Failed to fetch category {category_id}: {response.status_code}")
-            return "No Name"
-
-    except Exception as e:
-        print(f"An error occurred while fetching category {category_id}: {e}")
-        return "No Name"
-
-def create_category(name, parent_category_id=2, lang_id=1):
+def create_category(name, parent_category_id=2, lang_id=2):
     link_rewrite = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
     
     # Create the XML payload
@@ -103,19 +59,3 @@ def create_category(name, parent_category_id=2, lang_id=1):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
-
-
-def delete_category(category_id):
-    endpoint = f"{API_URL}/categories/{category_id}"
-
-    try:
-        response = requests.delete(endpoint, headers=HEADERS, verify=False)
-
-        if response.status_code == 200:
-            print(f"Category with ID {category_id} has been successfully deleted.")
-        else:
-            print(f"Failed to delete category with ID {category_id}: {response.status_code} - {response.text}")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")

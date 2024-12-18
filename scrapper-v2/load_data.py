@@ -54,8 +54,7 @@ def load_subcategories(category_id, category_name):
         if not products:
             continue
         
-        if subcategory_name == "Kordonki":
-            products_array.append({"subcategory_id": subcategory_id, "products": products})
+        products_array.append({"subcategory_id": subcategory_id, "products": products})
     print("")
     return products_array
 

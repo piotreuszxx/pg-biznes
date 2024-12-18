@@ -53,29 +53,6 @@ def upload_image(product_id, image_path):
         print(f"An error occurred: {e}")
 
 
-# def upload_image(product_id, image_path):
-#     endpoint = f"{API_URL}/images/products/{product_id}"
-
-#     try:
-#         with open(image_path, 'rb') as image_file:
-#             files = {
-#                 'image': (image_path.split('/')[-1], image_file, 'image/jpeg')
-#             }
-#             response = requests.post(endpoint, headers=HEADERS, files=files, verify=False)
-
-#         if response.status_code in [200, 201]:
-#             print("Image uploaded successfully.")
-#         else:
-#             print(f"Failed to upload image: {response.status_code} - {response.text}")
-
-#         return response
-
-#     except FileNotFoundError:
-#         print(f"File not found: {image_path}")
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-
-
 def update_quantity(product_id, new_quantity):
     stock_url = f"{API_URL}/stock_availables"
     params = {
@@ -114,7 +91,7 @@ def update_quantity(product_id, new_quantity):
     update_data = ET.tostring(prestashop, encoding="utf-8", method="xml").decode("utf-8")
     requests.put(update_url, headers=HEADERS, data=update_data, auth=(API_KEY, ''), verify=False)
 
-def create_product(category_id, name, price, description, lang="1"):
+def create_product(category_id, name, price, description, lang="2"):
     prestashop = ET.Element("prestashop", {"xmlns:xlink": "http://www.w3.org/1999/xlink"})
     product = ET.SubElement(prestashop, "product")
 
@@ -150,6 +127,7 @@ def create_product(category_id, name, price, description, lang="1"):
     ET.SubElement(product, "visibility").text = "both"
     ET.SubElement(product, "state").text = "1"
     ET.SubElement(product, "available_for_order").text = "1"
+    ET.SubElement(product, "show_price").text = "1"
     ET.SubElement(product, "minimal_quantity").text = "1"
     ET.SubElement(product, "reference").text = name.replace(" ", "_")
     ET.SubElement(product, "id_tax_rules_group").text = '1'
