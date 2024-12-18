@@ -6,14 +6,17 @@ import random
 from faker import Faker
 
 fake = Faker(locale="pl_PL")
-driver = webdriver.Edge() # !!! change to your browser
+driver = webdriver.Chrome() # !!! change to your browser
 driver.maximize_window()
 
 def switch_to_polish():
     driver.find_element(By.CLASS_NAME, "expand-more").click()
     time.sleep(0.5)
     driver.find_element(By.XPATH, "//a[contains(text(), 'Polski')]").click()
-
+    action = webdriver.ActionChains(driver)
+    element = driver.find_element(By.CLASS_NAME, "user-info") # or your another selector here
+    action.move_to_element(element)
+    action.perform()
 
 def test_a_add_to_cart():
     driver.get("http://localhost:8080/")
@@ -63,6 +66,7 @@ def test_b_search_and_add_to_cart():
     search_box.send_keys("guzik")
     search_box.send_keys(Keys.RETURN)
 
+    time.sleep(0.5)
     products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
     random_index = random.randint(1, len(products)-1)
     products[random_index].click()
@@ -194,8 +198,8 @@ def tests_efghij_order_cart_contents():
     print("Test I passed!")
     #TODO faktura
 
-# test_a_add_to_cart()
-# test_b_search_and_add_to_cart()
-# test_c_remove_from_cart()
-# test_d_register_new_account()
+test_a_add_to_cart()
+test_b_search_and_add_to_cart()
+test_c_remove_from_cart()
+test_d_register_new_account()
 tests_efghij_order_cart_contents()
