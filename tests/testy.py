@@ -9,15 +9,22 @@ fake = Faker(locale="pl_PL")
 driver = webdriver.Edge() # !!! change to your browser
 driver.maximize_window()
 
+def switch_to_polish():
+    driver.find_element(By.CLASS_NAME, "expand-more").click()
+    time.sleep(0.5)
+    driver.find_element(By.XPATH, "//a[contains(text(), 'Polski')]").click()
+
+
 def test_a_add_to_cart():
-    driver.get("http://localhost:8080/pl/")
+    driver.get("http://localhost:8080/")
+    switch_to_polish()
     
-    category1 = driver.find_element(By.ID, "category-3")
+    category1 = driver.find_element(By.ID, "category-178")
     add_products_in_category(category1, 5)
-    category2 = driver.find_element(By.ID, "category-6")
+    category2 = driver.find_element(By.ID, "category-179")
     add_products_in_category(category2, 5)
 
-    verify_cart_contents("7")  # FIXME change to 10 when we have all products loaded
+    verify_cart_contents("10")
     print("Test A passed!")
     driver.delete_all_cookies()
 
@@ -30,19 +37,30 @@ def verify_cart_contents(contents):
 def add_products_in_category(category, max_prods):
     category.click()
     products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
-    for index in range(min(max_prods, len(products))): # max 5 products per category
+    index = 0
+    count = 0
+    while count < max_prods:
+        time.sleep(0.5)
         # re-fetch products to avoid stale refs
         products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
         products[index].click()
+        index = index + 1
         
-        driver.find_element(By.CLASS_NAME, "add-to-cart").click()
+        add_button = driver.find_element(By.CLASS_NAME, "add-to-cart")
+        # skip out-of-stock products
+        if (not add_button.is_enabled()):
+            driver.back()
+            continue
+        add_button.click()
+        count = count + 1
         driver.back()
     
 def test_b_search_and_add_to_cart():
-    driver.get("http://localhost:8080/pl/")
+    driver.get("http://localhost:8080/")
+    switch_to_polish()
 
     search_box = driver.find_element(By.NAME, "s")
-    search_box.send_keys("mug")
+    search_box.send_keys("guzik")
     search_box.send_keys(Keys.RETURN)
 
     products = driver.find_elements(By.CLASS_NAME, "thumbnail-top")
@@ -60,9 +78,10 @@ def test_b_search_and_add_to_cart():
     driver.delete_all_cookies()
 
 def test_c_remove_from_cart():
-    driver.get("http://localhost:8080/pl/")
+    driver.get("http://localhost:8080/")
+    switch_to_polish()
 
-    category = driver.find_element(By.ID, "category-6")
+    category = driver.find_element(By.ID, "category-178")
     add_products_in_category(category, 3)
     
     # verify cart contents
@@ -80,7 +99,8 @@ def test_c_remove_from_cart():
     driver.delete_all_cookies()
 
 def test_d_register_new_account():
-    driver.get("http://localhost:8080/pl/")
+    driver.get("http://localhost:8080/")
+    switch_to_polish()
     driver.find_element(By.CLASS_NAME, "user-info").click()
     driver.find_element(By.CLASS_NAME, "no-account").click()
     driver.find_element(By.ID, "field-id_gender-1").click()
@@ -104,10 +124,11 @@ def test_d_register_new_account():
     driver.delete_all_cookies()
 
 def tests_efghij_order_cart_contents():
-    driver.get("http://localhost:8080/pl/")
+    driver.get("http://localhost:8080/")
+    switch_to_polish()
 
     # add one product to cart
-    category = driver.find_element(By.ID, "category-3")
+    category = driver.find_element(By.ID, "category-178")
     add_products_in_category(category, 1)
     time.sleep(1)
     driver.refresh()
@@ -175,6 +196,6 @@ def tests_efghij_order_cart_contents():
 
 # test_a_add_to_cart()
 # test_b_search_and_add_to_cart()
-test_c_remove_from_cart()
+# test_c_remove_from_cart()
 # test_d_register_new_account()
-# tests_efghij_order_cart_contents()
+tests_efghij_order_cart_contents()
