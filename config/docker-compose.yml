@@ -1,8 +1,12 @@
 services:
   prestashop:
     image: prestashop/prestashop:1.7.8
+    build:
+      context: ../ssl
+      dockerfile: Dockerfile
     ports:
       - "8080:80"
+      - "8443:443"
     environment:
       - DB_SERVER=db
       - DB_NAME=prestashop
