@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import re
 from config import API_URL, HEADERS
 
-def create_category(name, parent_category_id=2, lang_id=2):
+def create_category(name, parent_category_id=2, lang_id=1):
     link_rewrite = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
     
     # Create the XML payload

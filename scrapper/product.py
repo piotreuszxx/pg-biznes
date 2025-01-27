@@ -91,7 +91,7 @@ def update_quantity(product_id, new_quantity):
     update_data = ET.tostring(prestashop, encoding="utf-8", method="xml").decode("utf-8")
     requests.put(update_url, headers=HEADERS, data=update_data, auth=(API_KEY, ''), verify=False)
 
-def create_product(category_id, name, price, description, lang="2"):
+def create_product(category_id, name, price, description, lang="1"):
     prestashop = ET.Element("prestashop", {"xmlns:xlink": "http://www.w3.org/1999/xlink"})
     product = ET.SubElement(prestashop, "product")
 
