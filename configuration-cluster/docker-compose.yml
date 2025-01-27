@@ -1,5 +1,5 @@
 services:
-  prestashop:
+  prestashop-simulation:
     container_name: prestashop
     image: ghcr.io/piotreuszxx/pg-biznes:latest
     restart: always
@@ -11,13 +11,18 @@ services:
       DB_USER: root
       DB_PASSWD: student
     networks:
-      - admin-mysql_default
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 512M
+      - prestashop_network
+  mysql:
+    container_name: admin-mysql_db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: student
+      MYSQL_DATABASE: BE_193331
+    volumes:
+      - ../dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    networks:
+      - prestashop_network
 
 networks:
-  admin-mysql_default:
-    external: true
+    prestashop_network:

@@ -11,7 +11,19 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - prestashop_network
-
+  prestashop-simulation:
+    container_name: prestashop
+    image: ghcr.io/piotreuszxx/pg-biznes:latest
+    restart: always
+    ports:
+      - "19333:443"
+    environment:
+      DB_SERVER: admin-mysql_db
+      DB_NAME: BE_193331
+      DB_USER: root
+      DB_PASSWD: student
+    networks:
+      - prestashop_network
   prestashop:
     container_name: prestashop
     image: prestashop/prestashop:1.7.8

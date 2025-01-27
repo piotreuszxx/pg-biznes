@@ -14,5 +14,5 @@ service apache2 restart
 
 Komendy do wywołania z folderu DEV/configuration
 
-docker exec admin-mysql_db mysqldump -uroot -pstudent BE_193234 > dump.sql
+docker exec admin-mysql_db mysqldump -uroot -pstudent BE_193331 > dump.sql
 
