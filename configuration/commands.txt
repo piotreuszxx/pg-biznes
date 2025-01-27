@@ -1,0 +1,18 @@
+Komendy do wywołania z folderu DEV
+
+sudo docker cp ./configuration/default-ssl.conf prestashop:/etc/apache2/sites-available/default-ssl.conf
+
+sudo docker cp ./configuration/certs/. prestashop:/etc/ssl/certs
+
+sudo docker exec -it prestashop bash
+
+a2enmod ssl
+
+a2ensite default-ssl.conf
+
+service apache2 restart
+
+Komendy do wywołania z folderu DEV/configuration
+
+docker exec admin-mysql_db mysqldump -uroot -pstudent BE_193234 > dump.sql
+
