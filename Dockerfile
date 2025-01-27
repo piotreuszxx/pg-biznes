@@ -1,6 +1,7 @@
 FROM prestashop/prestashop:1.7.8
 
 COPY ./prestashop /var/www/html
+COPY ./scrapper-results /var/www/html
 
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html
