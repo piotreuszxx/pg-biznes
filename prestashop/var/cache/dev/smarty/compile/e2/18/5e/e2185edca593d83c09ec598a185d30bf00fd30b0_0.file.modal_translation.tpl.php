@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.48, created on 2025-01-27 23:38:16
+/* Smarty version 3.1.48, created on 2025-01-28 17:38:10
   from '/var/www/html/admin-dev/themes/default/template/controllers/modules/modal_translation.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.48',
-  'unifunc' => 'content_67980ad8872e97_54147538',
+  'unifunc' => 'content_679907f26dfbb1_37875519',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e2185edca593d83c09ec598a185d30bf00fd30b0' => 
     array (
       0 => '/var/www/html/admin-dev/themes/default/template/controllers/modules/modal_translation.tpl',
-      1 => 1702485415,
+      1 => 1738080779,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_67980ad8872e97_54147538 (Smarty_Internal_Template $_smarty_tpl) {
+function content_679907f26dfbb1_37875519 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class="modal-body">
 	<div class="input-group">
 		<button type="button" class="btn btn-default dropdown-toggle" tabindex="-1" data-toggle="dropdown">
